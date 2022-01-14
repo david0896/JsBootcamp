@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Primera App usando AJAX</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: rgb(179, 195, 245);
+    }
+
+    input[type=text],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      background-color: white;
+    }
+
+    label {
+      padding: 12px 12px 12px 0;
+      display: block;
+      color: black;
+    }
+
+    select {
+      height: 40px;
+      margin-bottom: 6px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      margin: 10px 1px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input:focus,
+    select:focus {
+      background-color: lightblue;
+      border: 3px solid #555;
+    }
+
+    .container {
+      border-radius: 4px;
+      background-color: #f2f2f2;
+      padding: 18px;
+      width: 500px;
+      margin: auto;
+    }
+
+    ::placeholder {
+      color: gray;
+    }
+
+    button.eliminar {
+      background-color:red;
+    }
+
+    button.editar {
+      background-color:blue;
+    }
+
+    button.ver {
+      background-color:orange;
+    }
+
+    button[type=reset] {
+      background-color: white;
+      border: 1px solid black;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Formulario estilizado con css</h1>
+  <div class="container">
+    <form>
+      <input type="hidden" name="indice" id="indice" />
+
+      <label for="nombre">Nombre</label>
+      <input type="text" name="nombre" id="inNombre" placeholder="pon tu nombre aquí" required />
+
+      <label for="apellido">Apellido</label>
+      <input type="text" name="apellido" id="inApellido" placeholder="pon tu apellido aquí" required />
+
+      <label for="pais">País</label>
+      <select id="inPais" name="pais" required>
+        <option selected disabled hidden>seleccione</option>
+        <option>Colombia</option>
+        <option>Venezuela</option>
+        <option>México</option>
+        <option>Perú</option>
+      </select>
+
+      <button type="submit" id="miBoton">Crear</button>
+      <button type="reset" id="limpiar">Limpiar</button>
+    </form>
+
+    <table>
+      <thead>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Pais</th>
+        <th>Acciones</th>
+      </thead>
+      <tbody id="tbody-usuarios"></tbody>
+    </table>
+    
+  </div>
+  <script src="exampleFetch2.js"></script>
+</body>
+
+</html>
