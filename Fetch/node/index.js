@@ -2,11 +2,31 @@ const http = require("http");
 const url = require("url");
 const { StringDecoder } = require('string_decoder');
 
+let recursos = {
+
+    mascotas : [
+        {tipo: "perro", nombre: "boby", dueno: "daniel"},
+        {tipo: "perro", nombre: "boby", dueno: "daniel"},
+        {tipo: "perro", nombre: "boby", dueno: "daniel"},
+        {tipo: "perro", nombre: "boby", dueno: "daniel"},
+        {tipo: "gato", nombre: "blue", dueno: "sonia"}
+    ],
+
+}
+
 //manejador de rutas o handlers
 const enrutador = {
     //handler
     ruta: (data, callback)=>{
         callback(200, {mesaje: 'Esta es /ruta'});
+    },
+    //handler mascotas 
+    mascotas: (data, callback)=>{
+        callback(200, recursos.mascotas);
+    },
+    //handler usuarios 
+    usuarios: (data, callback)=>{
+        callback(200, [{nombre: "usuario 1"},{nombre: "usuario 2"}]);
     },
     //handler
     noEncontrado: (data, callback)=>{
@@ -79,6 +99,9 @@ const server = http.createServer((req, res) => {
         handler(data,(statusCode = 200, mensaje)=>{
 
             const respuesta = JSON.stringify(mensaje);
+
+            //colocamos en el handler que se devuelve una respuesta tipo JSON
+            res.setHeader("Content-Type", "application/json")
             res.writeHead(statusCode);
             //linea donde realmente ya estamos respondiendo a la aplicacion cliente
             res.end(respuesta);
