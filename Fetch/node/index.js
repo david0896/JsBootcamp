@@ -21,8 +21,10 @@ const enrutador = {
         callback(200, {mesaje: 'Esta es /ruta'});
     },
     //handler mascotas 
-    mascotas: (data, callback)=>{
-        callback(200, recursos.mascotas);
+    mascotas: {
+        GET: (data, callback)=>{
+            callback(200, recursos.mascotas);
+        },       
     },
     //handler usuarios 
     usuarios: (data, callback)=>{
@@ -87,8 +89,8 @@ const server = http.createServer((req, res) => {
 
     //Elegir el manejador dependiendo de la ruta y asignarle la funcion que el enrutador tiene 
     let handler;
-    if(rutaLimpia && enrutador[rutaLimpia]){
-        handler = enrutador[rutaLimpia];
+    if(rutaLimpia && enrutador[rutaLimpia] && enrutador[rutaLimpia][metodo]){
+        handler = enrutador[rutaLimpia][metodo];
     }else{
         handler = enrutador.noEncontrado;
     }
