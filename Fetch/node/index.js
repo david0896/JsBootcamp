@@ -1,6 +1,7 @@
 const http = require("http");
 const url = require("url");
 const { StringDecoder } = require('string_decoder');
+const { json } = require("stream/consumers");
 
 let recursos = {
 
@@ -23,7 +24,20 @@ const enrutador = {
     //handler mascotas 
     mascotas: {
         GET: (data, callback)=>{
+            //200 OK
+            //La solicitud ha tenido éxito. El significado de un éxito varía 
+            //dependiendo del método HTTP:
             callback(200, recursos.mascotas);
+        },
+        POST: (data, callback)=>{
+            //console.log('data desde HANDLER/POST', {data});
+
+            //201 Created
+            //La solicitud ha tenido éxito y se ha creado un nuevo recurso como 
+            //resultado de ello. Ésta es típicamente la respuesta enviada después 
+            //de una petición PUT.
+            recursos.mascotas.push(data.payload);            
+            callback(201, data.payload);
         },       
     },
     //handler usuarios 
@@ -32,6 +46,9 @@ const enrutador = {
     },
     //handler
     noEncontrado: (data, callback)=>{
+        //404 Not Found
+        //El servidor no pudo encontrar el contenido solicitado. Este código de 
+        //respuesta es uno de los más famosos dada su alta ocurrencia en la web.
         callback(404, {mesaje: 'Pagina no encontrada'});
     }
 }
@@ -78,6 +95,11 @@ const server = http.createServer((req, res) => {
     req.on('end', ()=>{
         buffer += decoder.end();
 
+    //validar headers type JSON
+    if(headers['content-type'] === 'application/json'){
+        buffer = JSON.parse(buffer);
+    }
+
     //Organizar data del request
     const data = {
         ruta: rutaLimpia,
@@ -86,6 +108,8 @@ const server = http.createServer((req, res) => {
         headers,
         payload: buffer 
     }
+
+    console.log("Data organizada: ", {data});
 
     //Elegir el manejador dependiendo de la ruta y asignarle la funcion que el enrutador tiene 
     let handler;
