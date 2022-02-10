@@ -33,6 +33,23 @@ module.exports = {
             global.recursos.mascotas.push(data.payload);            
             callback(201, data.payload);
         },       
+        //prueba postman EDITAR MASCOTAS
+        PUT: (data, callback)=>{
+            //evaluamos que en la ruta exista un indice a buscar
+            if(typeof data.indice !== 'undefined'){
+                //luego evaluamos que ese indice exista en nuetro array recursos
+                if(global.recursos.mascotas[data.indice]){
+                   global.recursos.mascotas[data.indice] = data.payload;
+                   return callback(200, global.recursos.mascotas[data.indice]);
+                }
+                return callback(404, {mesaje: `Mascota con indice ${data.indice} no encontrada`});
+
+            }
+            //400 bad request
+            //Esta respuesta significa que el servidor no pudo interpretar la solicitud
+            //dada una sintaxis inválida.
+            callback(400, {mensaje : 'Indice no enviado'});
+        },
     },
     //handler usuarios 
     usuarios: (data, callback)=>{
